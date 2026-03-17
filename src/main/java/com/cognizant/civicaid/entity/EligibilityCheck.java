@@ -22,7 +22,7 @@ public class EligibilityCheck {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "OfficerID", nullable = false)
-    private AppUser officer;
+    private User officer;
 
 
     @Column(name = "Result")

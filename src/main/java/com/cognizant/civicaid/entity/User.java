@@ -18,27 +18,27 @@ import java.util.List;
 )
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 
-public class AppUser {
+public class User {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "UserID")
         private Long userId;
 
-        @Column(name = "Name", nullable = false)
+        @Column(name = "Name")
         private String name;
 
         @Enumerated(EnumType.STRING)
-        @Column(name = "Role", nullable = false)
+        @Column(name = "Role")
         private Role role;
 
         @Column(name = "Email", nullable = false)
         private String email;
 
-        @Column(name = "Phone", nullable = false)
+        @Column(name = "Phone")
         private String phone;
 
-        @Column(name = "Status", nullable = false)
+        @Column(name = "Status")
         private String status;
 
         @Column(name = "Password", nullable = false)

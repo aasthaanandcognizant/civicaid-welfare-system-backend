@@ -50,6 +50,6 @@ public class Citizen {
 
 
     @OneToOne(mappedBy = "citizen", cascade = CascadeType.ALL)
-    private AppUser user;
+    private User user;
 
 }

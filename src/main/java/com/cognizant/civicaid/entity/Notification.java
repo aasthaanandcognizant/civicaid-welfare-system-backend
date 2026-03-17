@@ -19,7 +19,7 @@ public class Notification {
     //FK
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "UserID", nullable = false)
-    private AppUser user;
+    private User user;
 
     @Column(name = "EntityID")
     private Long entityId;
