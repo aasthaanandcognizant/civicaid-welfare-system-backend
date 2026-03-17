@@ -19,7 +19,7 @@ public class Audit {
     // Audit.officer (FK = OfficerID → AppUser.userId)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "OfficerID", nullable = false) //this not need to match
-    private AppUser officer;
+    private User officer;
 
     @Column(name = "Scope")
     private String scope;

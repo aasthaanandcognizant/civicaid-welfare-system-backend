@@ -23,7 +23,7 @@ public class AuditLog {
     //fetch data like user.
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "UserID", nullable = false) //here name is user but not need to be same as parent
-    private AppUser user;
+    private User user;
 
     private String action;
     private String resource;
