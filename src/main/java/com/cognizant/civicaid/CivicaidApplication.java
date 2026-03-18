@@ -8,6 +8,7 @@ public class CivicaidApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CivicaidApplication.class, args);
+
 	}
 
 }
