@@ -1,0 +1,5 @@
+package com.cognizant.civicaid.enums;
+
+public enum Role {
+    CITIZEN, WELFARE_OFFICER, PROGRAM_MANAGER, ADMINISTRATOR, COMPLIANCE_OFFICER, GOVERNMENT_OFFICER;
+}
