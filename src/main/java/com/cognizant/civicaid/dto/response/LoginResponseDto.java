@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.dto;
+package com.cognizant.civicaid.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

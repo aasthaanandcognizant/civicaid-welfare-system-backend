@@ -2,35 +2,38 @@ package com.cognizant.civicaid.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-
+@Table(name = "eligibility_checks")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class EligibilityCheck {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CheckID")
     private Long checkId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "application_id", nullable = false)
+    private com.civicaid.entity.WelfareApplication application;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ApplicationID", nullable = false)
-    private WelfareApplication application;
-
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "OfficerID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "officer_id", nullable = false)
     private User officer;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CheckResult result;
 
-    @Column(name = "Result")
-    private String result;
+    @CreationTimestamp
+    private LocalDateTime date;
 
-    @Column(name = "Date")
-    private LocalDate date;
-
-    @Column(name = "Notes", columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String notes;
+
+    public enum CheckResult {
+        ELIGIBLE, INELIGIBLE, PENDING_DOCUMENTS, FURTHER_REVIEW
+    }
 }

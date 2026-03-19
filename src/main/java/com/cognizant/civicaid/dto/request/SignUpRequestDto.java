@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.dto;
+package com.cognizant.civicaid.dto.request;
 
 import com.cognizant.civicaid.enums.Role;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.dto;
+package com.cognizant.civicaid.dto.response;
 
 import com.cognizant.civicaid.enums.Role;
 import lombok.Data;

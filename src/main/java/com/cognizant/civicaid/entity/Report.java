@@ -1,31 +1,40 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.ReportScope;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "reports")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Report {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ReportID")
     private Long reportId;
 
-    //FK , PK in compliance record
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ComplianceID", nullable = false, unique = true)
-    private ComplianceRecord complianceRecord;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "Scope", nullable = false)
+    @Column(nullable = false)
     private ReportScope scope;
 
-    @Column(name = "Metrics", columnDefinition = "text")
+    @Column(columnDefinition = "JSON")
     private String metrics;
 
-    @Column(name = "GeneratedDate")
+    @Column(nullable = false)
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "generated_by")
+    private User generatedBy;
+
+    @CreationTimestamp
     private LocalDateTime generatedDate;
+
+    private String fileUri;
+
+    public enum ReportScope {
+        CITIZEN, APPLICATION, PROGRAM, DISBURSEMENT, COMPLIANCE, OVERALL
+    }
 }
