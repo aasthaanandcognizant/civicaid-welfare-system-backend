@@ -44,7 +44,7 @@ public class Citizen {
     private List<com.cognizant.civicaid.entity.CitizenDocument> documents;
 
     @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.civicaid.entity.WelfareApplication> applications;
+    private List<com.cognizant.civicaid.entity.WelfareApplication> applications;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

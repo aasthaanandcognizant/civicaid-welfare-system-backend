@@ -20,7 +20,7 @@ public class Disbursement {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", nullable = false)
-    private com.civicaid.entity.WelfareApplication application;
+    private com.cognizant.civicaid.entity.WelfareApplication application;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
@@ -36,7 +36,7 @@ public class Disbursement {
     private String remarks;
 
     @OneToMany(mappedBy = "disbursement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.civicaid.entity.Payment> payments;
+    private List<com.cognizant.civicaid.entity.Payment> payments;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;

@@ -1,6 +1,6 @@
-package com.civicaid.dto.response;
+package com.cognizant.civicaid.dto.response;
 
-import com.civicaid.entity.Disbursement;
+import com.cognizant.civicaid.entity.Disbursement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

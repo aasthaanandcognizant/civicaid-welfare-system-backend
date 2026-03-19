@@ -1,6 +1,6 @@
-package com.civicaid.dto.request;
+package com.cognizant.civicaid.dto.request;
 
-import com.civicaid.entity.Payment;
+import com.cognizant.civicaid.entity.Payment;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;

@@ -38,10 +38,10 @@ public class Program {
     private ProgramStatus status = ProgramStatus.ACTIVE;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.civicaid.entity.Scheme> schemes;
+    private List<com.cognizant.civicaid.entity.Scheme> schemes;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.civicaid.entity.WelfareApplication> applications;
+    private List<com.cognizant.civicaid.entity.WelfareApplication> applications;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

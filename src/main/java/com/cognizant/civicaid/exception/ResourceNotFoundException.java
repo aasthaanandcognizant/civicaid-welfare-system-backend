@@ -1,4 +1,4 @@
-package com.civicaid.exception;
+package com.cognizant.civicaid.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

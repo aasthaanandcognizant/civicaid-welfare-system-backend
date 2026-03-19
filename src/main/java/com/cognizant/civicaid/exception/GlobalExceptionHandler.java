@@ -1,6 +1,6 @@
-package com.civicaid.exception;
+package com.cognizant.civicaid.exception;
 
-import com.civicaid.dto.response.ApiResponse;
+import com.cognizant.civicaid.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

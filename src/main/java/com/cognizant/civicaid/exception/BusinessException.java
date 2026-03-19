@@ -1,4 +1,4 @@
-package com.civicaid.exception;
+package com.cognizant.civicaid.exception;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

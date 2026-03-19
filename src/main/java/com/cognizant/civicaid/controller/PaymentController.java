@@ -1,10 +1,10 @@
-package com.civicaid.controller;
+package com.cognizant.civicaid.controller;
 
-import com.civicaid.dto.request.PaymentRequest;
-import com.civicaid.dto.response.ApiResponse;
-import com.civicaid.dto.response.PaymentResponse;
-import com.civicaid.entity.Payment;
-import com.civicaid.service.PaymentService;
+import com.cognizant.civicaid.dto.request.PaymentRequest;
+import com.cognizant.civicaid.dto.response.ApiResponse;
+import com.cognizant.civicaid.dto.response.PaymentResponse;
+import com.cognizant.civicaid.entity.Payment;
+import com.cognizant.civicaid.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

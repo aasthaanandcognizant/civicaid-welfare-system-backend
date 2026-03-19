@@ -1,10 +1,10 @@
-package com.civicaid.controller;
+package com.cognizant.civicaid.controller;
 
-import com.civicaid.dto.request.DisbursementRequest;
-import com.civicaid.dto.response.ApiResponse;
-import com.civicaid.dto.response.DisbursementResponse;
-import com.civicaid.entity.Disbursement;
-import com.civicaid.service.DisbursementService;
+import com.cognizant.civicaid.dto.request.DisbursementRequest;
+import com.cognizant.civicaid.dto.response.ApiResponse;
+import com.cognizant.civicaid.dto.response.DisbursementResponse;
+import com.cognizant.civicaid.entity.Disbursement;
+import com.cognizant.civicaid.service.DisbursementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

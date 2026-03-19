@@ -17,7 +17,7 @@ public class EligibilityCheck {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", nullable = false)
-    private com.civicaid.entity.WelfareApplication application;
+    private com.cognizant.civicaid.entity.WelfareApplication application;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "officer_id", nullable = false)
