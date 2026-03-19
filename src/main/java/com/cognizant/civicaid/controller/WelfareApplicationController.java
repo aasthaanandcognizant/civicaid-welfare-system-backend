@@ -1,14 +1,14 @@
 package com.cognizant.civicaid.controller;
 
-import com.civicaid.dto.request.WelfareApplicationRequest;
-import com.civicaid.dto.response.ApiResponse;
-import com.civicaid.dto.response.WelfareApplicationResponse;
-import com.civicaid.entity.User;
-import com.civicaid.entity.WelfareApplication;
-import com.civicaid.exception.ResourceNotFoundException;
-import com.civicaid.repository.CitizenRepository;
-import com.civicaid.repository.UserRepository;
-import com.civicaid.service.WelfareApplicationService;
+import com.cognizant.civicaid.dto.request.WelfareApplicationRequest;
+import com.cognizant.civicaid.dto.response.ApiResponse;
+import com.cognizant.civicaid.dto.response.WelfareApplicationResponse;
+import com.cognizant.civicaid.entity.User;
+import com.cognizant.civicaid.entity.WelfareApplication;
+import com.cognizant.civicaid.exception.ResourceNotFoundException;
+import com.cognizant.civicaid.repository.CitizenRepository;
+import com.cognizant.civicaid.repository.UserRepository;
+import com.cognizant.civicaid.service.WelfareApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
