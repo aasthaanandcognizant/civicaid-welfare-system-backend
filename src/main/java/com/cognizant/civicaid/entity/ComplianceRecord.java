@@ -1,37 +1,46 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.EntityType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "compliance_records")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class ComplianceRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ComplianceID")
     private Long complianceId;
 
-    // This stores either ApplicationID or ProgramID based on Type
-    @Column(name = "EntityID", nullable = false)
+    @Column(nullable = false)
     private Long entityId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Type", nullable = false, length = 30)
-    private EntityType type;  // APPLICATION or PROGRAM
+    @Column(nullable = false)
+    private EntityType type;
 
-    @Column(name = "Result")
-    private String result;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ComplianceResult result;
 
-    @Column(name = "Date")
-    private LocalDate date;
+    @CreationTimestamp
+    private LocalDateTime date;
 
-    @Column(name = "Notes", columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String notes;
 
-    //PK /// fetch - FK
-    @OneToOne(mappedBy = "complianceRecord", cascade = CascadeType.ALL)
-    private Report report;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewed_by")
+    private User reviewedBy;
+
+    public enum EntityType {
+        APPLICATION, PROGRAM, CITIZEN, DISBURSEMENT
+    }
+
+    public enum ComplianceResult {
+        COMPLIANT, NON_COMPLIANT, UNDER_REVIEW, PENDING
+    }
 }

@@ -1,47 +1,55 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "programs")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Program {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ProgramID")
     private Long programId;
 
-    @Column(name = "Title", nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(name = "Description", columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "StartDate")
+    @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "EndDate")
     private LocalDate endDate;
 
-    @Column(name = "Budget")
+    @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal budget;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status")
-    private Status status;
-
-    //FK
-    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = false)
     @Builder.Default
-    private List<Scheme> schemes = new ArrayList<>();
+    private ProgramStatus status = ProgramStatus.ACTIVE;
 
-    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = false)
-    @Builder.Default
-    private List<WelfareApplication> applications = new ArrayList<>();
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.Scheme> schemes;
+
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.WelfareApplication> applications;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum ProgramStatus {
+        DRAFT, ACTIVE, PAUSED, COMPLETED, CANCELLED
+    }
 }

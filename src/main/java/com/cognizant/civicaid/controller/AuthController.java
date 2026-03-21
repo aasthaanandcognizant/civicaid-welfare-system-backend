@@ -1,8 +1,9 @@
 package com.cognizant.civicaid.controller;
 
-import com.cognizant.civicaid.dto.LoginRequestDto;
-import com.cognizant.civicaid.dto.SignUpRequestDto;
-import com.cognizant.civicaid.dto.SignUpResponseDto;
+import com.cognizant.civicaid.dto.request.LoginRequestDto;
+import com.cognizant.civicaid.dto.response.LoginResponseDto;
+import com.cognizant.civicaid.dto.request.SignUpRequestDto;
+import com.cognizant.civicaid.dto.response.SignUpResponseDto;
 import com.cognizant.civicaid.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,11 @@ public class AuthController {
     //login controller
 
     @PostMapping("/login")
-    public ResponseEntity<String>login(@RequestBody LoginRequestDto loginRequestDto){
-
-//        return ResponseEntity.ok("Logged i Successfully.");
-
+    public ResponseEntity<LoginResponseDto>login(@RequestBody LoginRequestDto loginRequestDto){
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body("You Logged in successfully");
+                .status(HttpStatus.OK)
+                .body(authService.Login(loginRequestDto));
     }
 
     @PostMapping("/signup")

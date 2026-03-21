@@ -1,55 +1,62 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "citizens")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Citizen {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CitizenID")
     private Long citizenId;
 
-    @Column(name = "Name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "DOB")
+    @Column(nullable = false)
     private LocalDate dob;
 
-    @Column(name = "Gender", nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-    @Column(name = "Address")
+    @Column(columnDefinition = "TEXT")
     private String address;
 
-    @Column(name = "ContactInfo", nullable = false)
     private String contactInfo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status", nullable = false)
-    private Status status;
-
-    // Mappings
-    //PK
-    //orphanRemoval = true , If a child entity is removed from the parent’s collection,
-    //and it no longer has any parent, then delete it from the database automatically.
-    @OneToMany(mappedBy = "citizen", orphanRemoval = false)
     @Builder.Default
-    private List<CitizenDocument> documents = new ArrayList<>();
+    private CitizenStatus status = CitizenStatus.PENDING;
 
-
-    @OneToMany(mappedBy = "citizen", orphanRemoval = false)
-    @Builder.Default
-    private List<WelfareApplication> applications = new ArrayList<>();
-
-
-    @OneToOne(mappedBy = "citizen", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
 
+    @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.CitizenDocument> documents;
+
+    @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.WelfareApplication> applications;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum Gender {
+        MALE, FEMALE, OTHER
+    }
+
+    public enum CitizenStatus {
+        PENDING, VERIFIED, REJECTED, SUSPENDED
+    }
 }

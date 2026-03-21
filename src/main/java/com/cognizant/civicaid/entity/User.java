@@ -1,74 +1,59 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uc_user_email", columnNames = "Email"),
-                @UniqueConstraint(name = "uc_user_phone", columnNames = "Phone")
-        }
-
-)
+@Table(name = "users")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-
 public class User {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "UserID")
-        private Long userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
 
-        @Column(name = "Name")
-        private String name;
+    @Column(nullable = false)
+    private String name;
 
-        @Enumerated(EnumType.STRING)
-        @Column(name = "Role")
-        private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
-        @Column(name = "Email", nullable = false)
-        private String email;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-        @Column(name = "Phone")
-        private String phone;
+    @Column(nullable = false)
+    private String password;
 
-        @Column(name = "Status")
-        private String status;
+    private String phone;
 
-        @Column(name = "Password", nullable = false)
-        private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private UserStatus status = UserStatus.ACTIVE;
 
-        @Column(name = "CreatedAt")
-        private OffsetDateTime createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-        @Column(name = "UpdatedAt")
-        private OffsetDateTime updatedAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
-        // mappings below;
-        //PK
-        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // this should match with the fiels name in child i.e like user in auditLog
-        @Builder.Default  // - like it will not keep value null, it'll put default when not made any value
-        private List<AuditLog> auditLogs = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.AuditLog> auditLogs;
 
-        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-        @Builder.Default
-        private List<Notification> notifications = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.Notification> notifications;
 
-        @OneToMany(mappedBy = "officer", cascade = CascadeType.ALL)
-        @Builder.Default
-        private List<Audit> audits = new ArrayList<>();
-
-        //FK  --- need verification from team!!!!!!!!!!
-        //to get citizen easily
-        @OneToOne(fetch = FetchType.LAZY, optional = false)
-        @JoinColumn(name = "CitizenID", nullable = false, unique = true)
-        private Citizen citizen;
-
+    public enum Role {
+        CITIZEN, WELFARE_OFFICER, PROGRAM_MANAGER, ADMINISTRATOR, COMPLIANCE_OFFICER, GOVERNMENT_AUDITOR
     }
 
+    public enum UserStatus {
+        ACTIVE, INACTIVE, SUSPENDED
+    }
+}
