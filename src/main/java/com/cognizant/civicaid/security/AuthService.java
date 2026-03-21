@@ -8,6 +8,7 @@ import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.repository.UserRepository;
 import com.cognizant.civicaid.util.AuthUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,10 +19,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
+    @Autowired
     private ModelMapper modelMapper;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
     private AuthUtil authUtil;
 
     //login service
@@ -35,6 +41,9 @@ public class AuthService {
 
         // getPrincipal->having all the details of authenticate user
         UserDetails userDetails= (UserDetails) authentication.getPrincipal();
+
+//        assert userDetails != null;
+        if(userDetails==null) return null;
 
         String token=authUtil.generateJwtToken(userDetails);
 
