@@ -1,45 +1,54 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "welfare_applications")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class WelfareApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ApplicationID")
     private Long applicationId;
 
-    // FK
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CitizenID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "citizen_id", nullable = false)
     private Citizen citizen;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ProgramID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "program_id", nullable = false)
     private Program program;
 
-    @Column(name = "SubmittedDate")
-    private LocalDate submittedDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "scheme_id")
+    private Scheme scheme;
+
+    @CreationTimestamp
+    private LocalDateTime submittedDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status", nullable = false, length = 30)
-    private Status status;
-
-    //Mappings
-    //PK
-    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = false)
     @Builder.Default
-    private List<EligibilityCheck> checks = new ArrayList<>();
+    private ApplicationStatus status = ApplicationStatus.SUBMITTED;
 
-    // PK
-    @OneToOne(mappedBy = "application", fetch = FetchType.LAZY)
-    private Disbursement disbursement;
+    @Column(columnDefinition = "TEXT")
+    private String remarks;
+
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EligibilityCheck> eligibilityChecks;
+
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Disbursement> disbursements;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum ApplicationStatus {
+        SUBMITTED, UNDER_REVIEW, ELIGIBLE, INELIGIBLE, APPROVED, REJECTED, DISBURSED, CLOSED
+    }
 }

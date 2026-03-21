@@ -1,9 +1,9 @@
 package com.cognizant.civicaid.security;
 
-import com.cognizant.civicaid.dto.LoginRequestDto;
-import com.cognizant.civicaid.dto.LoginResponseDto;
-import com.cognizant.civicaid.dto.SignUpRequestDto;
-import com.cognizant.civicaid.dto.SignUpResponseDto;
+import com.cognizant.civicaid.dto.request.LoginRequestDto;
+import com.cognizant.civicaid.dto.response.LoginResponseDto;
+import com.cognizant.civicaid.dto.request.SignUpRequestDto;
+import com.cognizant.civicaid.dto.response.SignUpResponseDto;
 import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.repository.UserRepository;
 import com.cognizant.civicaid.util.AuthUtil;

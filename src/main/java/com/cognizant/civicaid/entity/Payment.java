@@ -1,33 +1,52 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.PaymentMethod;
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "payments")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PaymentID")
     private Long paymentId;
 
-    // FK lives here, PK in disbursement
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "DisbursementID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "disbursement_id", nullable = false)
     private Disbursement disbursement;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Method", nullable = false)
+    @Column(nullable = false)
     private PaymentMethod method;
 
-    @Column(name = "Date")
-    private LocalDate date;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal amount;
+
+    private String transactionReference;
+    private String bankAccountNumber;
+    private String walletId;
+
+    @CreationTimestamp
+    private LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status", nullable = false)
-    private Status status;
+    @Builder.Default
+    private PaymentStatus status = PaymentStatus.INITIATED;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum PaymentMethod {
+        BANK_TRANSFER, WALLET, CASH, CHEQUE
+    }
+
+    public enum PaymentStatus {
+        INITIATED, PROCESSING, SUCCESS, FAILED, REVERSED
+    }
 }

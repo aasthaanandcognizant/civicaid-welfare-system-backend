@@ -1,36 +1,42 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "audits")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AuditID")
     private Long auditId;
 
-
-    // Audit.officer (FK = OfficerID → AppUser.userId)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "OfficerID", nullable = false) //this not need to match
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "officer_id", nullable = false)
     private User officer;
 
-    @Column(name = "Scope")
+    @Column(nullable = false)
     private String scope;
 
-    @Column(name = "Findings", columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String findings;
 
-    @Column(name = "Date")
-    private LocalDate date;
+    @CreationTimestamp
+    private LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status")
-    private Status status;
+    @Builder.Default
+    private AuditStatus status = AuditStatus.IN_PROGRESS;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum AuditStatus {
+        SCHEDULED, IN_PROGRESS, COMPLETED, PENDING_REVIEW, CLOSED
+    }
 }
