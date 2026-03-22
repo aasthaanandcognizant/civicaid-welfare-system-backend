@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.entity;
+package com.civicaid.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

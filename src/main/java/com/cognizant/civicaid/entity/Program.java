@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.entity;
+package com.civicaid.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,10 +38,10 @@ public class Program {
     private ProgramStatus status = ProgramStatus.ACTIVE;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.cognizant.civicaid.entity.Scheme> schemes;
+    private List<Scheme> schemes;
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.cognizant.civicaid.entity.WelfareApplication> applications;
+    private List<WelfareApplication> applications;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
