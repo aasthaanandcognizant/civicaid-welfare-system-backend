@@ -47,7 +47,7 @@ public class CitizenController {
         return ResponseEntity.ok(citizenService.getCitizenByUserId(user.getUserId()));
     }
 
-    @PutMapping("/me")
+    @PutMapping("/update")
     @PreAuthorize("hasRole('CITIZEN')")
     public ResponseEntity<CitizenResponse> updateMyProfile(
             @AuthenticationPrincipal UserDetails userDetails,
