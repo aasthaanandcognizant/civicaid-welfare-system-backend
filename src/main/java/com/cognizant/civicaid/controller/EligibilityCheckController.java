@@ -1,7 +1,7 @@
 package com.cognizant.civicaid.controller;
 
 import com.cognizant.civicaid.dto.request.EligibilityCheckRequest;
-import com.cognizant.civicaid.dto.response.ApiResponse;
+
 import com.cognizant.civicaid.dto.response.EligibilityCheckResponse;
 import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.exception.ResourceNotFoundException;
@@ -28,30 +28,28 @@ public class EligibilityCheckController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('WELFARE_OFFICER','ADMINISTRATOR')")
-    public ResponseEntity<ApiResponse<EligibilityCheckResponse>> performCheck(
+    public ResponseEntity<EligibilityCheckResponse> performCheck(
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid @RequestBody EligibilityCheckRequest request) {
         User officer = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(
-                        eligibilityCheckService.performCheck(officer.getUserId(), request),
-                        "Eligibility check completed"));
+                .body( eligibilityCheckService.performCheck(officer.getUserId(), request));
     }
 
     @GetMapping("/application/{applicationId}")
     @PreAuthorize("hasAnyRole('WELFARE_OFFICER','ADMINISTRATOR','COMPLIANCE_OFFICER','GOVERNMENT_AUDITOR')")
-    public ResponseEntity<ApiResponse<List<EligibilityCheckResponse>>> getChecksByApplication(
+    public ResponseEntity<List<EligibilityCheckResponse>> getChecksByApplication(
             @PathVariable Long applicationId) {
-        return ResponseEntity.ok(ApiResponse.success(
-                eligibilityCheckService.getChecksByApplication(applicationId)));
+        return ResponseEntity.ok(
+                eligibilityCheckService.getChecksByApplication(applicationId));
     }
 
     @GetMapping("/application/{applicationId}/latest")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiResponse<EligibilityCheckResponse>> getLatestCheck(
+    public ResponseEntity<EligibilityCheckResponse> getLatestCheck(
             @PathVariable Long applicationId) {
-        return ResponseEntity.ok(ApiResponse.success(
-                eligibilityCheckService.getLatestCheck(applicationId)));
+        return ResponseEntity.ok(
+                eligibilityCheckService.getLatestCheck(applicationId));
     }
 }

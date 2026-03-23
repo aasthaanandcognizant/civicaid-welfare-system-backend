@@ -1,7 +1,6 @@
 package com.cognizant.civicaid.controller;
 
 import com.cognizant.civicaid.dto.request.WelfareApplicationRequest;
-import com.cognizant.civicaid.dto.response.ApiResponse;
 import com.cognizant.civicaid.dto.response.WelfareApplicationResponse;
 import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.entity.WelfareApplication;
@@ -32,7 +31,7 @@ public class WelfareApplicationController {
 
     @PostMapping
     @PreAuthorize("hasRole('CITIZEN')")
-    public ResponseEntity<ApiResponse<WelfareApplicationResponse>> submitApplication(
+    public ResponseEntity<WelfareApplicationResponse> submitApplication(
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid @RequestBody WelfareApplicationRequest request) {
         User user = userRepository.findByEmail(userDetails.getUsername())
@@ -40,33 +39,33 @@ public class WelfareApplicationController {
         var citizen = citizenRepository.findByUser_UserId(user.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("Citizen profile not found"));
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(
+                .body((
                         applicationService.submitApplication(citizen.getCitizenId(), request),
                         "Application submitted successfully"));
     }
 
     @GetMapping("/my")
     @PreAuthorize("hasRole('CITIZEN')")
-    public ResponseEntity<ApiResponse<Page<WelfareApplicationResponse>>> getMyApplications(
+    public ResponseEntity<Page<WelfareApplicationResponse>> getMyApplications(
             @AuthenticationPrincipal UserDetails userDetails,
             @PageableDefault(size = 20) Pageable pageable) {
         User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         var citizen = citizenRepository.findByUser_UserId(user.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("Citizen profile not found"));
-        return ResponseEntity.ok(ApiResponse.success(
-                applicationService.getApplicationsByCitizen(citizen.getCitizenId(), pageable)));
+        return ResponseEntity.ok(
+                applicationService.getApplicationsByCitizen(citizen.getCitizenId(), pageable));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiResponse<WelfareApplicationResponse>> getApplicationById(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.success(applicationService.getApplicationById(id)));
+    public ResponseEntity<WelfareApplicationResponse> getApplicationById(@PathVariable Long id) {
+        return ResponseEntity.ok(applicationService.getApplicationById(id));
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('WELFARE_OFFICER','PROGRAM_MANAGER','ADMINISTRATOR','COMPLIANCE_OFFICER','GOVERNMENT_AUDITOR')")
-    public ResponseEntity<ApiResponse<Page<WelfareApplicationResponse>>> getAllApplications(
+    public ResponseEntity<Page<WelfareApplicationResponse>> getAllApplications(
             @PageableDefault(size = 20) Pageable pageable,
             @RequestParam(required = false) WelfareApplication.ApplicationStatus status,
             @RequestParam(required = false) Long programId) {
@@ -74,23 +73,21 @@ public class WelfareApplicationController {
         if (status != null) result = applicationService.getApplicationsByStatus(status, pageable);
         else if (programId != null) result = applicationService.getApplicationsByProgram(programId, pageable);
         else result = applicationService.getAllApplications(pageable);
-        return ResponseEntity.ok(ApiResponse.success(result));
+        return ResponseEntity.ok(result);
     }
 
     @PatchMapping("/{id}/status")
     @PreAuthorize("hasAnyRole('WELFARE_OFFICER','ADMINISTRATOR')")
-    public ResponseEntity<ApiResponse<WelfareApplicationResponse>> updateApplicationStatus(
+    public ResponseEntity<WelfareApplicationResponse> updateApplicationStatus(
             @PathVariable Long id,
             @RequestParam WelfareApplication.ApplicationStatus status,
             @RequestParam(required = false) String remarks) {
-        return ResponseEntity.ok(ApiResponse.success(
-                applicationService.updateApplicationStatus(id, status, remarks),
-                "Application status updated"));
+        return ResponseEntity.ok(applicationService.updateApplicationStatus(id, status, remarks));
     }
 
     @PatchMapping("/{id}/withdraw")
     @PreAuthorize("hasRole('CITIZEN')")
-    public ResponseEntity<ApiResponse<Void>> withdrawApplication(
+    public ResponseEntity<Void> withdrawApplication(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getUsername())
@@ -98,6 +95,6 @@ public class WelfareApplicationController {
         var citizen = citizenRepository.findByUser_UserId(user.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("Citizen profile not found"));
         applicationService.withdrawApplication(id, citizen.getCitizenId());
-        return ResponseEntity.ok(ApiResponse.success(null, "Application withdrawn"));
+        return ResponseEntity.ok(null);
     }
 }
