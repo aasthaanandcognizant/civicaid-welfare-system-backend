@@ -1,10 +1,9 @@
 package com.cognizant.civicaid.controller;
 
-import com.civicaid.dto.request.CitizenDocumentRequest;
-import com.civicaid.dto.response.ApiResponse;
-import com.civicaid.dto.response.CitizenDocumentResponse;
-import com.civicaid.entity.CitizenDocument;
-import com.civicaid.service.CitizenDocumentService;
+import com.cognizant.civicaid.dto.request.CitizenDocumentRequest;
+import com.cognizant.civicaid.dto.response.CitizenDocumentResponse;
+import com.cognizant.civicaid.entity.CitizenDocument;
+import com.cognizant.civicaid.service.CitizenDocumentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,39 +22,39 @@ public class CitizenDocumentController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('CITIZEN','WELFARE_OFFICER','ADMINISTRATOR')")
-    public ResponseEntity<ApiResponse<CitizenDocumentResponse>> uploadDocument(
+    public ResponseEntity<CitizenDocumentResponse> uploadDocument(
             @Valid @RequestBody CitizenDocumentRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(documentService.uploadDocument(request), "Document uploaded successfully"));
+                .body(documentService.uploadDocument(request));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiResponse<CitizenDocumentResponse>> getDocumentById(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.success(documentService.getDocumentById(id)));
+    public ResponseEntity<CitizenDocumentResponse> getDocumentById(@PathVariable Long id) {
+        return ResponseEntity.ok((documentService.getDocumentById(id)));
     }
 
     @GetMapping("/citizen/{citizenId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiResponse<List<CitizenDocumentResponse>>> getDocumentsByCitizen(
+    public ResponseEntity<List<CitizenDocumentResponse>> getDocumentsByCitizen(
             @PathVariable Long citizenId) {
-        return ResponseEntity.ok(ApiResponse.success(documentService.getDocumentsByCitizen(citizenId)));
+        return ResponseEntity.ok((documentService.getDocumentsByCitizen(citizenId)));
     }
 
     @PatchMapping("/{id}/verify")
     @PreAuthorize("hasAnyRole('WELFARE_OFFICER','ADMINISTRATOR')")
-    public ResponseEntity<ApiResponse<CitizenDocumentResponse>> verifyDocument(
+    public ResponseEntity<CitizenDocumentResponse> verifyDocument(
             @PathVariable Long id,
             @RequestParam CitizenDocument.VerificationStatus status,
             @RequestParam(required = false) String notes) {
-        return ResponseEntity.ok(ApiResponse.success(
-                documentService.verifyDocument(id, status, notes), "Document verification updated"));
+        return ResponseEntity.ok(
+                documentService.verifyDocument(id, status, notes));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('WELFARE_OFFICER','ADMINISTRATOR')")
-    public ResponseEntity<ApiResponse<Void>> deleteDocument(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDocument(@PathVariable Long id) {
         documentService.deleteDocument(id);
-        return ResponseEntity.ok(ApiResponse.success(null, "Document deleted"));
+        return ResponseEntity.ok(null);
     }
 }

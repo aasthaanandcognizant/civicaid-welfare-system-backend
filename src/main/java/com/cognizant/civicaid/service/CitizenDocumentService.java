@@ -1,8 +1,8 @@
 package com.cognizant.civicaid.service;
 
-import com.civicaid.dto.request.CitizenDocumentRequest;
-import com.civicaid.dto.response.CitizenDocumentResponse;
-import com.civicaid.entity.CitizenDocument;
+import com.cognizant.civicaid.dto.request.CitizenDocumentRequest;
+import com.cognizant.civicaid.dto.response.CitizenDocumentResponse;
+import com.cognizant.civicaid.entity.CitizenDocument;
 
 import java.util.List;
 

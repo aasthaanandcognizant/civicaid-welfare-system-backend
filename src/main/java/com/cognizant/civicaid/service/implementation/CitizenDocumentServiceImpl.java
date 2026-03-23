@@ -1,13 +1,13 @@
 package com.cognizant.civicaid.service.implementation;
 
-import com.civicaid.dto.request.CitizenDocumentRequest;
-import com.civicaid.dto.response.CitizenDocumentResponse;
-import com.civicaid.entity.Citizen;
-import com.civicaid.entity.CitizenDocument;
-import com.civicaid.exception.ResourceNotFoundException;
-import com.civicaid.repository.CitizenDocumentRepository;
-import com.civicaid.repository.CitizenRepository;
-import com.civicaid.service.CitizenDocumentService;
+import com.cognizant.civicaid.dto.request.CitizenDocumentRequest;
+import com.cognizant.civicaid.dto.response.CitizenDocumentResponse;
+import com.cognizant.civicaid.entity.Citizen;
+import com.cognizant.civicaid.entity.CitizenDocument;
+import com.cognizant.civicaid.exception.ResourceNotFoundException;
+import com.cognizant.civicaid.repository.CitizenDocumentRepository;
+import com.cognizant.civicaid.repository.CitizenRepository;
+import com.cognizant.civicaid.service.CitizenDocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
