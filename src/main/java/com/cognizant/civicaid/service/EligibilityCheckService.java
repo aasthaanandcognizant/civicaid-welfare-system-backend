@@ -9,4 +9,5 @@ public interface EligibilityCheckService {
     EligibilityCheckResponse performCheck(Long officerId, EligibilityCheckRequest request);
     List<EligibilityCheckResponse> getChecksByApplication(Long applicationId);
     EligibilityCheckResponse getLatestCheck(Long applicationId);
+
 }

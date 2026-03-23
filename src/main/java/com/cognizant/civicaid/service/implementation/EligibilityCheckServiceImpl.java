@@ -7,6 +7,7 @@ import com.cognizant.civicaid.exception.ResourceNotFoundException;
 import com.cognizant.civicaid.repository.*;
 import com.cognizant.civicaid.service.EligibilityCheckService;
 import com.cognizant.civicaid.service.NotificationService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,7 @@ public class EligibilityCheckServiceImpl implements EligibilityCheckService {
         };
         application.setStatus(newStatus);
         applicationRepository.save(application);
+
 
         // Notify citizen
         notificationService.sendNotification(

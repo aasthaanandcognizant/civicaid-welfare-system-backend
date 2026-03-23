@@ -8,6 +8,8 @@ import com.cognizant.civicaid.exception.ResourceNotFoundException;
 import com.cognizant.civicaid.repository.*;
 import com.cognizant.civicaid.service.NotificationService;
 import com.cognizant.civicaid.service.WelfareApplicationService;
+
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -61,6 +63,7 @@ public class WelfareApplicationServiceImpl implements WelfareApplicationService 
 
         application = applicationRepository.save(application);
 
+
         // Notify citizen
         notificationService.sendNotification(
                 citizen.getUser().getUserId(),
@@ -68,7 +71,6 @@ public class WelfareApplicationServiceImpl implements WelfareApplicationService 
                 "Your application for " + program.getTitle() + " has been submitted successfully.",
                 Notification.NotificationCategory.APPLICATION
         );
-
         return mapToResponse(application);
     }
 
