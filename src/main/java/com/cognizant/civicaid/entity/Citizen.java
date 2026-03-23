@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.entity;
+package com.civicaid.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,10 +41,10 @@ public class Citizen {
     private User user;
 
     @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.cognizant.civicaid.entity.CitizenDocument> documents;
+    private List<CitizenDocument> documents;
 
     @OneToMany(mappedBy = "citizen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.cognizant.civicaid.entity.WelfareApplication> applications;
+    private List<WelfareApplication> applications;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

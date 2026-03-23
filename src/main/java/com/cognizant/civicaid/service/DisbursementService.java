@@ -1,8 +1,8 @@
-package com.cognizant.civicaid.service;
+package com.civicaid.service;
 
-import com.cognizant.civicaid.dto.request.DisbursementRequest;
-import com.cognizant.civicaid.dto.response.DisbursementResponse;
-import com.cognizant.civicaid.entity.Disbursement;
+import com.civicaid.dto.request.DisbursementRequest;
+import com.civicaid.dto.response.DisbursementResponse;
+import com.civicaid.entity.Disbursement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;

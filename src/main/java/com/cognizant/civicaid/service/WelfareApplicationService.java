@@ -3,6 +3,11 @@ package com.cognizant.civicaid.service;
 import com.cognizant.civicaid.dto.request.WelfareApplicationRequest;
 import com.cognizant.civicaid.dto.response.WelfareApplicationResponse;
 import com.cognizant.civicaid.entity.WelfareApplication;
+package com.civicaid.service;
+
+import com.civicaid.dto.request.WelfareApplicationRequest;
+import com.civicaid.dto.response.WelfareApplicationResponse;
+import com.civicaid.entity.WelfareApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

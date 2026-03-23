@@ -1,16 +1,17 @@
-package com.cognizant.civicaid.service.implementation;
+package com.civicaid.service.impl;
 
-import com.cognizant.civicaid.dto.request.PaymentRequest;
-import com.cognizant.civicaid.dto.response.PaymentResponse;
-import com.cognizant.civicaid.entity.Disbursement;
-import com.cognizant.civicaid.entity.Notification;
-import com.cognizant.civicaid.entity.Payment;
-import com.cognizant.civicaid.exception.ResourceNotFoundException;
-import com.cognizant.civicaid.repository.DisbursementRepository;
-import com.cognizant.civicaid.repository.PaymentRepository;
-import com.cognizant.civicaid.service.NotificationService;
-import com.cognizant.civicaid.service.PaymentService;
+import com.civicaid.dto.request.PaymentRequest;
+import com.civicaid.dto.response.PaymentResponse;
+import com.civicaid.entity.Disbursement;
+import com.civicaid.entity.Notification;
+import com.civicaid.entity.Payment;
+import com.civicaid.exception.ResourceNotFoundException;
+import com.civicaid.repository.DisbursementRepository;
+import com.civicaid.repository.PaymentRepository;
+import com.civicaid.service.NotificationService;
+import com.civicaid.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -47,13 +49,17 @@ public class PaymentServiceImpl implements PaymentService {
         disbursement.setStatus(Disbursement.DisbursementStatus.PROCESSING);
         disbursementRepository.save(disbursement);
 
-        notificationService.sendNotification(
-                disbursement.getApplication().getCitizen().getUser().getUserId(),
-                payment.getPaymentId(),
-                "Payment of ₹" + request.getAmount() + " initiated via " + request.getMethod().name(),
-                Notification.NotificationCategory.DISBURSEMENT
-        );
-
+        try {
+            notificationService.sendNotification(
+                    disbursement.getApplication().getCitizen().getUser().getUserId(),
+                    payment.getPaymentId(),
+                    "Payment of ₹" + request.getAmount() + " initiated via " + request.getMethod().name(),
+                    Notification.NotificationCategory.DISBURSEMENT
+            );
+        } catch (Exception e) {
+            log.error("Failed to send notification for payment {}. Error: {}",
+                    payment.getPaymentId(), e.getMessage(), e);
+        }
         return mapToResponse(payment);
     }
 
@@ -81,17 +87,28 @@ public class PaymentServiceImpl implements PaymentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Payment", id));
         payment.setStatus(status);
 
+        String message;
         if (status == Payment.PaymentStatus.SUCCESS) {
             Disbursement disbursement = payment.getDisbursement();
             disbursement.setStatus(Disbursement.DisbursementStatus.COMPLETED);
             disbursementRepository.save(disbursement);
+            message = "Payment of ₹" + payment.getAmount() + " completed successfully.";
+        } else if (status == Payment.PaymentStatus.FAILED) {
+            message = "Payment of ₹" + payment.getAmount() + " has failed. Please try again.";
+        } else {
+            message = "Payment status updated to: " + status.name();
+        }
 
+        try {
             notificationService.sendNotification(
-                    disbursement.getApplication().getCitizen().getUser().getUserId(),
+                    payment.getDisbursement().getApplication().getCitizen().getUser().getUserId(),
                     payment.getPaymentId(),
-                    "Payment of ₹" + payment.getAmount() + " completed successfully.",
+                    message,
                     Notification.NotificationCategory.DISBURSEMENT
             );
+        } catch (Exception e) {
+            log.error("Failed to send notification for payment {}. Error: {}",
+                    payment.getPaymentId(), e.getMessage(), e);
         }
 
         return mapToResponse(paymentRepository.save(payment));
