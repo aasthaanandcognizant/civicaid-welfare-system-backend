@@ -7,7 +7,7 @@ import com.cognizant.civicaid.entity.ComplianceRecord;
 import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.exception.ResourceNotFoundException;
 import com.cognizant.civicaid.repository.UserRepository;
-import com.civicaid.service.ComplianceService;
+import com.cognizant.civicaid.service.ComplianceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

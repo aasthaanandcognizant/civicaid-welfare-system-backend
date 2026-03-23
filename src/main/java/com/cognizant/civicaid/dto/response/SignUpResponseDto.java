@@ -1,6 +1,6 @@
 package com.cognizant.civicaid.dto.response;
 
-import com.cognizant.civicaid.enums.Role;
+import com.cognizant.civicaid.entity.User.Role;
 import lombok.Data;
 
 @Data
