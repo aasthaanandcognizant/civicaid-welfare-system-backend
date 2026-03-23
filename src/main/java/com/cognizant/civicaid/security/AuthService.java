@@ -60,6 +60,7 @@ public class AuthService {
 
         newUser.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
 
+        newUser.setRole(User.Role.CITIZEN);
         userRepository.save(newUser);
 
         return modelMapper.map(newUser,SignUpResponseDto.class);
