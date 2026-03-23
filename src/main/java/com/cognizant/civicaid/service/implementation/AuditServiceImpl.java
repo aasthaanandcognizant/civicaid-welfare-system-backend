@@ -6,7 +6,6 @@ import com.cognizant.civicaid.entity.Audit;
 import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.exception.ResourceNotFoundException;
 import com.cognizant.civicaid.repository.AuditRepository;
-import com.cognizant.civicaid.repository.UserRepository;
 import com.cognizant.civicaid.service.AuditService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

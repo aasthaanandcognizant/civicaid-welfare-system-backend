@@ -1,12 +1,10 @@
 package com.cognizant.civicaid.controller;
 
 import com.cognizant.civicaid.dto.request.AuditRequest;
-import com.cognizant.civicaid.dto.response.ApiResponse;
 import com.cognizant.civicaid.dto.response.AuditResponse;
 import com.cognizant.civicaid.entity.Audit;
 import com.cognizant.civicaid.entity.User;
 import com.cognizant.civicaid.exception.ResourceNotFoundException;
-import com.cognizant.civicaid.repository.UserRepository;
 import com.cognizant.civicaid.service.AuditService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
