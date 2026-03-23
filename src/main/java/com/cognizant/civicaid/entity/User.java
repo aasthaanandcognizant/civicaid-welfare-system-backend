@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.entity;
+package com.civicaid.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,10 +44,10 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.cognizant.civicaid.entity.AuditLog> auditLogs;
+    private List<AuditLog> auditLogs;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<com.cognizant.civicaid.entity.Notification> notifications;
+    private List<Notification> notifications;
 
     public enum Role {
         CITIZEN, WELFARE_OFFICER, PROGRAM_MANAGER, ADMINISTRATOR, COMPLIANCE_OFFICER, GOVERNMENT_AUDITOR

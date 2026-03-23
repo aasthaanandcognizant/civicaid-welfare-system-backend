@@ -1,4 +1,4 @@
-package com.cognizant.civicaid.entity;
+package com.civicaid.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +17,7 @@ public class EligibilityCheck {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", nullable = false)
-    private com.cognizant.civicaid.entity.WelfareApplication application;
+    private WelfareApplication application;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "officer_id", nullable = false)
