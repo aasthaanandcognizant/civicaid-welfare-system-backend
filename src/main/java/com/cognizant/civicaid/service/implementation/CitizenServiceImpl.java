@@ -1,14 +1,14 @@
 package com.cognizant.civicaid.service.implementation;
 
-import com.civicaid.dto.request.CitizenRequest;
-import com.civicaid.dto.response.CitizenResponse;
-import com.civicaid.entity.Citizen;
-import com.civicaid.entity.User;
-import com.civicaid.exception.BusinessException;
-import com.civicaid.exception.ResourceNotFoundException;
-import com.civicaid.repository.CitizenRepository;
-import com.civicaid.repository.UserRepository;
-import com.civicaid.service.CitizenService;
+import com.cognizant.civicaid.dto.request.CitizenRequest;
+import com.cognizant.civicaid.dto.response.CitizenResponse;
+import com.cognizant.civicaid.entity.Citizen;
+import com.cognizant.civicaid.entity.User;
+import com.cognizant.civicaid.exception.BusinessException;
+import com.cognizant.civicaid.exception.ResourceNotFoundException;
+import com.cognizant.civicaid.repository.CitizenRepository;
+import com.cognizant.civicaid.repository.UserRepository;
+import com.cognizant.civicaid.service.CitizenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

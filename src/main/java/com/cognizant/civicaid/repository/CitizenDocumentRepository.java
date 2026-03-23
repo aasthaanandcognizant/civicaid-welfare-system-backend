@@ -1,6 +1,6 @@
 package com.cognizant.civicaid.repository;
 
-import com.civicaid.entity.CitizenDocument;
+import com.cognizant.civicaid.entity.CitizenDocument;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
