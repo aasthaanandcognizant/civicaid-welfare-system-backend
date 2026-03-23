@@ -1,33 +1,33 @@
 package com.cognizant.civicaid.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.GeneratedValue;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Table(name = "audit_logs")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class AuditLog {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AuditLogID")
-    private Long auditId;
+    private Long auditLogId;
 
-    //Relation - (FK) we can fetch from appuser so used appuser datatype
-    //fetch - it controls how jjpa loads,
-    //lazy - loads data when we call like user.userId, eager - loads everytime with parent class
-    //fetch data like user.
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserID", nullable = false) //here name is user but not need to be same as parent
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
     private String action;
+
+    @Column(nullable = false)
     private String resource;
+
+    @CreationTimestamp
     private LocalDateTime timestamp;
 
-
+    private String ipAddress;
+    private String details;
 }

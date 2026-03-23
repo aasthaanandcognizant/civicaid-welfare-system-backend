@@ -1,41 +1,47 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-
+@Table(name = "disbursements")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Disbursement {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "DisbursementID")
     private Long disbursementId;
 
-    //FK - can fetch from 4elfare application
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ApplicationID", nullable = false, unique = true)
-    private WelfareApplication application;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "application_id", nullable = false)
+    private com.cognizant.civicaid.entity.WelfareApplication application;
 
-
-    @Column(name = "ApplicationID")
-    private Long applicationIdRef;
-
-    @Column(name = "Amount")
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
 
-    @Column(name = "Date")
-    private LocalDate date;
+    @CreationTimestamp
+    private LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status")
-    private Status status;
+    @Builder.Default
+    private DisbursementStatus status = DisbursementStatus.PENDING;
 
+    @Column(columnDefinition = "TEXT")
+    private String remarks;
 
-    @OneToOne(mappedBy = "disbursement", cascade = CascadeType.ALL)
-    private Payment payment;
+    @OneToMany(mappedBy = "disbursement", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<com.cognizant.civicaid.entity.Payment> payments;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum DisbursementStatus {
+        PENDING, PROCESSING, COMPLETED, FAILED, CANCELLED
+    }
 }

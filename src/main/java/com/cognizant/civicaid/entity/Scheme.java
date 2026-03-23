@@ -1,32 +1,45 @@
 package com.cognizant.civicaid.entity;
 
-import com.cognizant.civicaid.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "schemes")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Scheme {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SchemeID")
     private Long schemeId;
 
-    // FK, PK in program
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ProgramID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "program_id", nullable = false)
     private Program program;
 
-    @Column(name = "Title", nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(name = "Description", columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "EligibilityCriteria", columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String eligibilityCriteria;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Status", nullable = false)
-    private Status status;
+    @Builder.Default
+    private SchemeStatus status = SchemeStatus.ACTIVE;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    public enum SchemeStatus {
+        ACTIVE, INACTIVE, ARCHIVED
+    }
 }
