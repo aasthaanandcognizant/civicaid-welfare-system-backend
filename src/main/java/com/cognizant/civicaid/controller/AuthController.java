@@ -8,8 +8,10 @@ import com.cognizant.civicaid.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,4 +38,12 @@ public class AuthController {
                 .body(authService.SignUp(signUpRequestDto));
     }
 
+    @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String headerFromToken){
+
+        String jwts=headerFromToken.substring(7);
+
+        return ResponseEntity.ok("Logout Successfully");
+    }
 }
