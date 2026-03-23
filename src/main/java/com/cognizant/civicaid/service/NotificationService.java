@@ -1,7 +1,7 @@
-package com.civicaid.service;
+package com.cognizant.civicaid.service;
 
-import com.civicaid.dto.response.NotificationResponse;
-import com.civicaid.entity.Notification;
+import com.cognizant.civicaid.dto.response.NotificationResponse;
+import com.cognizant.civicaid.entity.Notification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

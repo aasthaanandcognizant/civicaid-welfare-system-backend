@@ -1,11 +1,11 @@
-package com.civicaid.controller;
+package com.cognizant.civicaid.controller;
 
-import com.civicaid.dto.response.ApiResponse;
-import com.civicaid.dto.response.NotificationResponse;
-import com.civicaid.entity.User;
-import com.civicaid.exception.ResourceNotFoundException;
-import com.civicaid.repository.UserRepository;
-import com.civicaid.service.NotificationService;
+import com.cognizant.civicaid.dto.response.ApiResponse;
+import com.cognizant.civicaid.dto.response.NotificationResponse;
+import com.cognizant.civicaid.entity.User;
+import com.cognizant.civicaid.exception.ResourceNotFoundException;
+import com.cognizant.civicaid.repository.UserRepository;
+import com.cognizant.civicaid.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,12 +1,12 @@
-package com.civicaid.service.impl;
+package com.cognizant.civicaid.service.impl;
 
-import com.civicaid.dto.response.NotificationResponse;
-import com.civicaid.entity.Notification;
-import com.civicaid.entity.User;
-import com.civicaid.exception.ResourceNotFoundException;
-import com.civicaid.repository.NotificationRepository;
-import com.civicaid.repository.UserRepository;
-import com.civicaid.service.NotificationService;
+import com.cognizant.civicaid.dto.response.NotificationResponse;
+import com.cognizant.civicaid.entity.Notification;
+import com.cognizant.civicaid.entity.User;
+import com.cognizant.civicaid.exception.ResourceNotFoundException;
+import com.cognizant.civicaid.repository.NotificationRepository;
+import com.cognizant.civicaid.repository.UserRepository;
+import com.cognizant.civicaid.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
